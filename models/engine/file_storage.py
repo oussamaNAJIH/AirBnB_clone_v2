@@ -50,20 +50,10 @@ class FileStorage:
             pass
     
     def delete(self, obj=None):
-        """delete obj from __objects"""
-        from models.base_model import BaseModel
-        from models.user import User
-        from models.place import Place
-        from models.state import State
-        from models.city import City
-        from models.amenity import Amenity
-        from models.review import Review
-        classes = {
-                    'BaseModel': BaseModel, 'User': User, 'Place': Place,
-                    'State': State, 'City': City, 'Amenity': Amenity,
-                    'Review': Review
-                  }
-        for key in classes.keys:
-            if "{}.{}".format(key, obj.id) in self.__objects:
-                del self.__objects["{}.{}".format(key, obj.id)]
-            
+        """Delete obj from __objects"""
+        if obj is None:
+            return
+
+        key = "{}.{}".format(obj.__class__.__name__, obj.id)
+        if key in self.__objects.keys:
+            del self.__objects[key]
