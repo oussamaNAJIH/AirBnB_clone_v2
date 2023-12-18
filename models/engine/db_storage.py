@@ -26,8 +26,6 @@ class DBStorage:
         Base.metadata.create_all(self.__engine)
         if os.getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(self.__engine)
-        self.__session = sessionmaker().configure(bind=self.__engine)
-
     def all(self, cls=None):
         """Query all objects depending on the class name."""
         cls_dict = {
