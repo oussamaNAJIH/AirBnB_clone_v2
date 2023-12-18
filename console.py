@@ -4,6 +4,8 @@ import cmd
 import sys
 from models.base_model import BaseModel
 from models.__init__ import storage
+from models.engine.db_storage import DBStorage
+from models.engine.file_storage import FileStorage
 from models.user import User
 from models.place import Place
 from models.state import State
@@ -227,12 +229,18 @@ class HBNBCommand(cmd.Cmd):
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
+
+        # Check if storage is an instance of DBStorage or FileStorage
+        if isinstance(storage, DBStorage):
+            # Use DBStorage methods to query the database
+            objects = storage.all(HBNBCommand.classes.get(args))
+            for obj in objects.values():
+                print_list.append(str(obj))
+        elif isinstance(storage, FileStorage):
+            # Use FileStorage methods to access __objects
             for k, v in storage.all().items():
-                if k.split('.')[0] == args:
+                if not args or k.split('.')[0] == args:
                     print_list.append(str(v))
-        else:
-            for k, v in storage.all().items():
-                print_list.append(str(v))
 
         print(print_list)
 
