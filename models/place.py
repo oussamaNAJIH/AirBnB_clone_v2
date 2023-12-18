@@ -2,6 +2,8 @@
 """ Place Module for HBNB project """
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer, Float, ForeignKey
+from sqlalchemy.orm import relationship
+from models.engine.file_storage import FileStorage
 
 
 class Place(BaseModel, Base):
@@ -16,5 +18,11 @@ class Place(BaseModel, Base):
     number_bathrooms = Column(Integer, default=0, nullable=False)
     max_guest = Column(Integer, default=0, nullable=False)
     price_by_night = Column(Integer, default=0, nullable=False)
-    latitude = Column(Float, nullable=True)  # Can be null
-    longitude = Column(Float, nullable=True)  # Can be null
+    latitude = Column(Float, nullable=True)
+    longitude = Column(Float, nullable=True)
+    reviews = relationship("Review", backref="place")
+
+    @property
+    def reviews(self):
+        """getter attribute"""
+        return self.reviews
