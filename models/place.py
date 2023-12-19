@@ -3,13 +3,10 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer, Float, ForeignKey
 from sqlalchemy.orm import relationship
-from models.review import Review
 from models.amenity import Amenity
 from sqlalchemy import Table, Column, String, ForeignKey
 
-
 class Place(BaseModel, Base):
-    """ A place to stay """
     __tablename__ = "places"
 
     city_id = Column(String(60), ForeignKey("cities.id"), nullable=False)
@@ -22,10 +19,12 @@ class Place(BaseModel, Base):
     price_by_night = Column(Integer, default=0, nullable=False)
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
-    reviews = relationship("Review", backref="place")
 
     amenities = relationship(
-        "Amenity", secondary="place_amenity", backref="places"
+        "Amenity",
+        secondary="place_amenity",
+        backref="places",
+        viewonly=False
     )
 
     @property
@@ -47,7 +46,6 @@ class Place(BaseModel, Base):
                 setattr(self, 'amenity_ids', [])
             if obj.id not in self.amenity_ids:
                 self.amenity_ids.append(obj.id)
-
 
 metadata = Base.metadata
 
