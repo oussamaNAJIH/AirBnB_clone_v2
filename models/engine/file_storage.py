@@ -15,11 +15,12 @@ class FileStorage:
 
         filtered_objects = {}
         for key, value in self.__objects.items():
-            class_name = key.split(".")[0]
-            if class_name == cls.__name__:
+            obj_class = value.__class__
+            if isinstance(value, cls):
                 filtered_objects[key] = value
 
         return filtered_objects
+
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
@@ -62,4 +63,5 @@ class FileStorage:
         """Delete obj from __objects"""
         if obj is not None:
             key = "{}.{}".format(obj.__class__.__name__, obj.id)
-            del self.__objects[key]
+            if key in self.__objects:
+                del self.__objects[key]
