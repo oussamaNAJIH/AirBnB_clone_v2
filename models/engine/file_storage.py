@@ -11,10 +11,10 @@ class FileStorage:
     def all(self, cls=None):
         """Returns a dictionary of models"""
         if cls is None:
-            return FileStorage.__objects
+            return self.__objects
 
         filtered_objects = {}
-        for key, value in FileStorage.__objects.items():
+        for key, value in self.__objects.items():
             class_name = key.split(".")[0]
             if class_name == cls.__name__:
                 filtered_objects[key] = value
@@ -60,9 +60,7 @@ class FileStorage:
 
     def delete(self, obj=None):
         """Delete obj from __objects"""
-        if obj is None:
-            return
-
-        key = "{}.{}".format(obj.__class__.__name__, obj.id)
-        if key in FileStorage.__objects:
-            del self.__objects[key]
+        if obj != None:
+            key = "{}.{}".format(obj.__class__.__name__, obj.id)
+            if key in FileStorage.__objects:
+                del self.__objects[key]
