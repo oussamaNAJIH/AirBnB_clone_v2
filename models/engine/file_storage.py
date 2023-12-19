@@ -15,8 +15,8 @@ class FileStorage:
 
         filtered_objects = {}
         for key, value in FileStorage.__objects.items():
-            class_name = key.split(".")[0]
-            if class_name == cls.__name__:
+            class_name, obj_id = key.split(".")
+            if isinstance(value, cls):
                 filtered_objects[key] = value
 
         return filtered_objects
