@@ -3,8 +3,9 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer, Float, ForeignKey
 from sqlalchemy.orm import relationship
-from models.engine.file_storage import FileStorage
-
+from models.review import Review
+from models.amenity import Amenity
+from sqlalchemy import Table, Column, String, ForeignKey
 
 class Place(BaseModel, Base):
     """ A place to stay """
@@ -22,7 +23,36 @@ class Place(BaseModel, Base):
     longitude = Column(Float, nullable=True)
     reviews = relationship("Review", backref="place")
 
+    amenities = relationship(
+        "Amenity", secondary="place_amenity", backref="places"
+    )
     @property
-    def reviews(self):
-        """getter attribute"""
-        return self.reviews
+    def amenities(self):
+        """ Getter attribute for FileStorage """
+        from models import storage
+        amenities_list = []
+        for amenity_id in self.amenity_ids:
+            amenity = storage.get("Amenity", amenity_id)
+            if amenity:
+                amenities_list.append(amenity)
+        return amenities_list
+
+    @amenities.setter
+    def amenities(self, obj):
+        """ Setter attribute for FileStorage """
+        if isinstance(obj, Amenity):
+            if not hasattr(self, 'amenity_ids'):
+                setattr(self, 'amenity_ids', [])
+            if obj.id not in self.amenity_ids:
+                self.amenity_ids.append(obj.id)
+
+
+metadata = Base.metadata
+
+place_amenity = Table(
+    'place_amenity', metadata,
+    Column("place_id", String(60), ForeignKey("places.id"), 
+           primary_key=True, nullable=False),
+    Column("amenity_id", String(60), ForeignKey("amenities.id"), 
+           primary_key=True, nullable=False)
+)
