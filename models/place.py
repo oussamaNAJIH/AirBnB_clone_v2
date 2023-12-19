@@ -7,6 +7,7 @@ from models.review import Review
 from models.amenity import Amenity
 from sqlalchemy import Table, Column, String, ForeignKey
 
+
 class Place(BaseModel, Base):
     """ A place to stay """
     __tablename__ = "places"
@@ -26,6 +27,7 @@ class Place(BaseModel, Base):
     amenities = relationship(
         "Amenity", secondary="place_amenity", backref="places"
     )
+
     @property
     def amenities(self):
         """ Getter attribute for FileStorage """
@@ -51,8 +53,8 @@ metadata = Base.metadata
 
 place_amenity = Table(
     'place_amenity', metadata,
-    Column("place_id", String(60), ForeignKey("places.id"), 
+    Column("place_id", String(60), ForeignKey("places.id"),
            primary_key=True, nullable=False),
-    Column("amenity_id", String(60), ForeignKey("amenities.id"), 
+    Column("amenity_id", String(60), ForeignKey("amenities.id"),
            primary_key=True, nullable=False)
 )
