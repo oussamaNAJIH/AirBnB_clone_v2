@@ -47,6 +47,7 @@ class Place(BaseModel, Base):
             if obj.id not in self.amenity_ids:
                 self.amenity_ids.append(obj.id)
 
+
 metadata = Base.metadata
 
 place_amenity = Table(
@@ -56,3 +57,4 @@ place_amenity = Table(
     Column("amenity_id", String(60), ForeignKey("amenities.id"),
            primary_key=True, nullable=False)
 )
+

@@ -13,3 +13,4 @@ class Amenity(BaseModel, Base):
         secondary="place_amenity",
         backref="amenities"
     )
+
