@@ -13,13 +13,12 @@ class FileStorage:
         if cls is None:
             return self.__objects
 
-        else:
-            filtered_objects = {}
-            for key, value in self.__objects.items():
-                class_name, obj_id = key.split(".")
-                if class_name == cls.__name__:
-                    filtered_objects[key] = value
-            return filtered_objects
+        filtered_objects = {}
+        for key, value in self.__objects.items():
+            class_name, obj_id = key.split(".")
+            if class_name == cls.__name__:
+                filtered_objects[key] = value
+        return filtered_objects
 
 
     def new(self, obj):
