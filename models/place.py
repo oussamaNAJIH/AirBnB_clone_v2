@@ -28,27 +28,6 @@ class Place(BaseModel, Base):
         viewonly=False
     )
 
-    @property
-    def amenities(self):
-        """ Getter attribute for FileStorage """
-        from models import storage
-        amenities_list = []
-        for amenity_id in self.amenity_ids:
-            amenity = storage.get("Amenity", amenity_id)
-            if amenity:
-                amenities_list.append(amenity)
-        return amenities_list
-
-    @amenities.setter
-    def amenities(self, obj):
-        """ Setter attribute for FileStorage """
-        if isinstance(obj, Amenity):
-            if not hasattr(self, 'amenity_ids'):
-                setattr(self, 'amenity_ids', [])
-            if obj.id not in self.amenity_ids:
-                self.amenity_ids.append(obj.id)
-
-
 metadata = Base.metadata
 
 place_amenity = Table(
