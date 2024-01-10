@@ -3,7 +3,7 @@
 Fabric script that generates a .tgz archive from the contents of
 the web_static folder of your AirBnB Clone repo
 """
-from fabric import *
+from fabric.api import *
 from datetime import datetime
 
 
