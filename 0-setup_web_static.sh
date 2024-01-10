@@ -1,17 +1,15 @@
 #!/usr/bin/env bash
 # Install Nginx if not already installed
-if ! [ -x "$(command -v nginx)" ]; then
-    sudo apt-get update
-    sudo apt-get install -y nginx
-fi
-
+sudo apt-get update
+sudo apt-get -y install nginx
+sudo ufw allow 'Nginx HTTP'
 # Create necessary folders if they don't exist
 sudo mkdir -p /data/web_static/releases/test/
 sudo mkdir -p /data/web_static/releases/
 sudo mkdir -p /data/web_static/shared/
 
 # Create a fake HTML file with content
-echo "<html>
+sudo echo "<html>
   <head>
   </head>
   <body>
@@ -29,17 +27,7 @@ sudo rm -rf /data/web_static/current
 sudo ln -s /data/web_static/releases/test/ /data/web_static/current
 
 # Update Nginx configuration
-config_content="server {
-    listen 80;
-    server_name _;
-    location /hbnb_static {
-        alias /data/web_static/current/;
-    }
-}"
-
-echo "$config_content" | sudo tee /etc/nginx/sites-available/default
+sudo sed -i '/listen 80 default_server/a location /hbnb_static { alias /data/web_static/current/;}' /etc/nginx/sites-enabled/default
 
 # Restart Nginx
 sudo service nginx restart
-
-exit 0
