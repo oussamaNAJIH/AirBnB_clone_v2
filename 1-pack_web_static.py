@@ -14,7 +14,7 @@ def do_pack():
     time_string = "{}{}{}{}{}{}".format(datetime.isoformat("%Y%m%d%H%M%S"))
     archive_name = "web_static_{}.tgz".format(time_string)
     local("makdir versions")
-    archive = local("tar -c versions/{} web_static".format(archive_name))
+    archive = local("tar -ca versions/{} web_static".format(archive_name))
     if archive:
         return archive
     else:
