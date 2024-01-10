@@ -17,17 +17,10 @@ sudo echo "<html>
   </body>
 </html>" | sudo tee /data/web_static/releases/test/index.html
 
-# Ensure ownership of the /data folder by ubuntu user and group
+sudo ln -s -f /data/web_static/releases/test/ /data/web_static/current
+
 sudo chown -R ubuntu:ubuntu /data/
 
-# Remove existing symbolic link if it exists
-sudo rm -rf /data/web_static/current
-
-# Create a symbolic link
-sudo ln -s /data/web_static/releases/test/ /data/web_static/current
-
-# Update Nginx configuration
 sudo sed -i '/listen 80 default_server/a location /hbnb_static { alias /data/web_static/current/;}' /etc/nginx/sites-enabled/default
 
-# Restart Nginx
 sudo service nginx restart
