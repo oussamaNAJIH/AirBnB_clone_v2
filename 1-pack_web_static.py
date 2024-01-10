@@ -9,13 +9,16 @@ from datetime import datetime
 
 def do_pack():
     """
-     return the archive path if the archive has been correctly generated
+    Creates a .tgz archive from web_static folder.
+    Returns the path to the created archive, or None on failure.
     """
-    time_string = "{}{}{}{}{}{}".format(datetime.isoformat("%Y%m%d%H%M%S"))
+    now = datetime.now()
+    time_string = now.strftime("%Y%m%d%H%M%S")
     archive_name = "web_static_{}.tgz".format(time_string)
-    local("makdir versions")
-    archive = local("tar -ca versions/{} web_static".format(archive_name))
-    if archive:
-        return archive
-    else:
+    local("mkdir -p versions")
+    archive_path = "versions/{}".format(archive_name)
+    command = "tar -czvf {} web_static".format(archive_path)
+    result = local(command)
+    if result.failed:
         return None
+    return archive_path
