@@ -4,10 +4,8 @@ Fabric script that deletes out-of-date archives
 """
 from fabric.api import *
 import os
+env.hosts = ['100.25.102.204', '54.236.41.224']
 
-env.hosts = ['<IP web-01>', '<IP web-02>']
-env.user = 'ubuntu'  # Update with your SSH username
-env.key_filename = '/path/to/your/private/key.pem'  # Update with the path to your private key
 
 def do_clean(number=0):
     """
