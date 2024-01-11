@@ -16,26 +16,16 @@ def do_deploy(archive_path):
     if not os.path.exists(archive_path):
         return False
 
-    else:
-        # Upload the archive to /tmp/ directory on the server
-        put(archive_path, '/tmp/')
-
-        # Extract the contents to /data/web_static/releases/
-        archive_filename = os.path.basename(archive_path)
-        folder_name = archive_filename.split('.')[0]
-        releases_path = '/data/web_static/releases/{}/'.format(folder_name)
-        run('sudo mkdir -p {}'.format(releases_path))
-        run('sudo tar -xzf /tmp/{} -C {}'.format(archive_filename, releases_path))
-
-        # Move the contents to the proper location
-        run('sudo mv {}web_static/* {}'.format(releases_path, releases_path))
-
-        # Remove the temporary files
-        run('sudo rm -rf {}web_static'.format(releases_path))
-        run('sudo rm /tmp/{}'.format(archive_filename))
-
-        # Update the symbolic link
-        current_path = '/data/web_static/current'
-        run('sudo rm -rf {}'.format(current_path))
-        run('sudo ln -s {} {}'.format(releases_path, current_path))
+    try:
+        put(archive_path, "/tmp/")
+        archive_without_ext = archive_path.split("/")[-1].split(".")[0]
+        run("mkdir -p /data/web_static/releases/{}".format(archive_without_ext))
+        destination = "/data/web_static/releases/{}".format(archive_without_ext)
+        source = "/tmp/{}".format(archive_without_ext)
+        run("tar -xzvf {} -C {}".format(source, destination))
+        run("rm {}".format(source))
+        run('rm -rf /data/web_static/current')
+        run('ln -s {}/ /data/web_static/current'.format(source))
         return True
+    except:
+        return False
