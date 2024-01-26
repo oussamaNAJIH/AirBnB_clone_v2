@@ -18,7 +18,7 @@ def hbnb():
     """
     displays HBNB
     """
-    return "HBNB!"
+    return "HBNB"
 
 
 @app.route("/c/<text>", strict_slashes=False)
