@@ -20,8 +20,11 @@ def states_list():
     """
     displays all states
     """
-    states_list = storage.all(State).values
-    sorted_states = sorted(states_list, key=lambda x: x.name)
+    states_dict = storage.all(State)
+    list_states = []
+    for state in states_dict.values():
+        list_states.append(state)
+    sorted_states = sorted(list_states, key=lambda x: x.name)
     return render_template("7-states_list.html", states=sorted_states)
 
 
