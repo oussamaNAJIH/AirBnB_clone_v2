@@ -14,6 +14,7 @@ def teardown_appcontext(exception):
     """
     storage.close()
 
+
 @app.route("/cities_by_states", strict_slashes=False)
 def cities_by_states():
     """
