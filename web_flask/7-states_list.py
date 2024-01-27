@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """script that starts a Flask web application"""
 from flask import Flask, render_template
-from models import db_storage
+from models import storage
 from models.state import State
 
 app = Flask(__name__)
@@ -12,7 +12,7 @@ def teardown_appcontext(exception):
     """
     calls storage.close() method
     """
-    db_storage.close()
+    storage.close()
 
 
 @app.route("/states_list", strict_slashes=False)
@@ -20,7 +20,7 @@ def states_list():
     """
     displays all states
     """
-    states_dict = db_storage.all(State)
+    states_dict = storage.all(State)
     list_states = []
     for state in states_dict.values():
         list_states.append(state)
