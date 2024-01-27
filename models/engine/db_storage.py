@@ -13,6 +13,7 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 
+
 class DBStorage:
     __engine = None
     __session = None
@@ -26,6 +27,7 @@ class DBStorage:
         Base.metadata.create_all(self.__engine)
         if os.getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(self.__engine)
+
     def all(self, cls=None):
         """Query all objects depending on the class name."""
         cls_dict = {
@@ -50,7 +52,6 @@ class DBStorage:
 
         return obj_dict
 
-
     def new(self, obj):
         """Add the object to the current database session."""
         self.__session.add(obj)
@@ -67,10 +68,10 @@ class DBStorage:
     def reload(self):
         """Reloads all tables and creates the database session."""
         Base.metadata.create_all(self.__engine)
-        session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        session_factory = sessionmaker(bind=self.__engine,
+                                       expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
-
 
     def close(self):
         """
