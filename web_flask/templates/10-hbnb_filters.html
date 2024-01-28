@@ -5,7 +5,6 @@
     <link rel="stylesheet" href="static/styles/3-header.css">
     <link rel="stylesheet" href="static/styles/3-footer.css">
     <link rel="stylesheet" href="static/styles/6-filters.css">
-    <link rel="icon" href="static/images/icon.png" />
     <title>AirBnB Clone</title>
 </head>
 <body>
@@ -18,35 +17,29 @@
             <button>Search</button>
             <div class="locations">
                 <h3>States</h3>
-                <h4>&nbsp;</h4>
-                <div class="popover">
+                <ul class="popover">
                     {% for state in states|sort(attribute='name') %}
-                    <ul>
-                        <li>
-                            <h2>{{ state.name }}</h2>
-                            {% for city in state.cities|sort(attribute='name') %}
-                            <ul>
-                                <li><div class="list_content">{{ city.name }}</div></li>
-                            </ul>
-                            {% endfor %}
-                        </li>
-                    </ul>
-                {% endfor %}
-                </div>
+                        <li><h2>{{ state.name }}:</h2></li>
+                            <li>
+                                <ul class="popover_1">
+                                    {% for city in state.cities|sort(attribute='name') %}
+                                        <li>{{ city.name }}</li>
+                                    {% endfor %}
+                                    
+                                </ul>
+                            </li>
+                    {% endfor %} 
+                </ul>
             </div>
             <div class="amenities">
                 <h3>Amenities</h3>
-                <h4>&nbsp;</h4>
-                <div class="popover">
+                <ul class="popover">
                     {% for amenity in amenities|sort(attribute='name') %}
-                    <ul>
-                        <li><div class="list_content">{{ amenity.name }}</div></li>
-                    </ul>
-                    {% endfor %}
-                </div>
+                        <li>{{ amenity.name }}</li>
+                    {% endfor %} 
+                </ul>
             </div>
         </section>
-
     </div>
     <footer>
         Best School
