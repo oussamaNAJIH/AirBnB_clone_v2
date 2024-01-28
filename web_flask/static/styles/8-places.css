@@ -20,6 +20,10 @@
     font-size: 30px;
     text-align: center;
     margin-top: 0;
+    width: 60%;
+    position: absolute;
+    left: 20px;
+    top: 20px;
 }
 
 .price_by_night {
@@ -43,7 +47,7 @@
     border-top: #DDDDDD 1px solid;
     border-bottom: #DDDDDD 1px;
     display: flex;
-    margin-top: 50px;
+    margin-top: 150px;
     justify-content: space-around;
     padding-left: 50px;
 }
