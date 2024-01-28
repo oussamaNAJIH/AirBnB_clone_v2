@@ -1,3 +1,2 @@
-from models import storage
-from models.state import State
-print(storage.all(State))
+import pymysql
+pymysql.install_as_MySQLdb()
